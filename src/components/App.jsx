@@ -8,7 +8,7 @@ import ItemModal from "./ItemModal/ItemModal.jsx";
 
 function App() {
   const [weatherData, setWeatherData] = useState({ type: "cold" });
-  const [activeModal, setActiveModal] = useState("");
+  const [activeModal, setActiveModal] = useState("preview");
   const [selectedCard, setSelectedCard] = useState({});
 
   const handleCardClick = () => {
