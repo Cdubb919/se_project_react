@@ -1,3 +1,5 @@
+import "../ModalWithForm/ModalWithForm.css";
+
 function ModalWithForm() {
     return (
         <div className="modal">  
