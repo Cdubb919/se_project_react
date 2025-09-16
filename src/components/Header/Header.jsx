@@ -3,6 +3,11 @@ import wtwrlogo from "../../assets/wtwrlogo.svg";
 import wtwravataricon from "../../assets/wtwravataricon.svg";
 
 function Header({ handleAddClick }) {
+const currentDate = new Date().toLocaleString('default', { 
+  month: 'long', 
+  day: 'numeric' 
+});
+
   return (
     <header className="header">
       <img className="header__logo" src={wtwrlogo} />
