@@ -6,10 +6,10 @@ import Header from "./Header/Header.jsx";
 import Main from "./Main/Main.jsx";
 import ModalWithForm from "./ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "./ItemModal/ItemModal.jsx";
-import { getWeather } from "../utils/weatherApi.js";
+import { filterWeatherData, getWeather } from "../utils/weatherApi.js";
 
 function App() {
-  const [weatherData, setWeatherData] = useState({ type: "cold" });
+  const [weatherData, setWeatherData] = useState({ type: "", temp: { F: 999 }, city: "", });
   const [activeModal, setActiveModal] = useState("preview");
   const [selectedCard, setSelectedCard] = useState({});
 
@@ -29,7 +29,8 @@ function App() {
   useEffect(() => {
     getWeather(coordinates, APIkey)
       .then((data) => {
-        console.log(data);
+        const filteredData = filterWeatherData(data);
+        setWeatherData(filteredData);
       })
       .catch(console.error);
   }, []);
@@ -37,7 +38,7 @@ function App() {
   return (
     <div className="page">
       <div className="page__content">
-        <Header handleAddClick={handleAddClick} />
+        <Header handleAddClick={handleAddClick}  weatherData={weatherData} />
         <Main weatherData={weatherData} handleCardClick={handleCardClick} />
       </div>
       <ModalWithForm
@@ -67,13 +68,13 @@ function App() {
         <fieldset className="modal__radio-buttons">
           <legend className="modal__legend">Select the weather type:</legend>
           <label htmlFor="hot" className="modal__label modal__label_type_radio">
-            <input id="cold" type="radio" className="modal__radio-input" /> Hot
+            <input id="hot" type="radio" className="modal__radio-input" /> Hot
           </label>
           <label
             htmlFor="warm"
             className="modal__label modal__label_type_radio"
           >
-            <input id="cold" type="radio" className="modal__radio-input" /> Warm
+            <input id="warm" type="radio" className="modal__radio-input" /> Warm
           </label>
           <label
             htmlFor="cold"
