@@ -6,10 +6,15 @@ import Header from "./Header/Header.jsx";
 import Main from "./Main/Main.jsx";
 import ModalWithForm from "./ModalWithForm/ModalWithForm.jsx";
 import ItemModal from "./ItemModal/ItemModal.jsx";
+import Footer from "./Footer/Footer.jsx";
 import { filterWeatherData, getWeather } from "../utils/weatherApi.js";
 
 function App() {
-  const [weatherData, setWeatherData] = useState({ type: "", temp: { F: 999 }, city: "", });
+  const [weatherData, setWeatherData] = useState({
+    type: "",
+    temp: { F: 999 },
+    city: "",
+  });
   const [activeModal, setActiveModal] = useState("preview");
   const [selectedCard, setSelectedCard] = useState({});
 
@@ -38,7 +43,7 @@ function App() {
   return (
     <div className="page">
       <div className="page__content">
-        <Header handleAddClick={handleAddClick}  weatherData={weatherData} />
+        <Header handleAddClick={handleAddClick} weatherData={weatherData} />
         <Main weatherData={weatherData} handleCardClick={handleCardClick} />
       </div>
       <ModalWithForm
@@ -89,6 +94,7 @@ function App() {
         card={selectedCard}
         onClose={closeActiveModal}
       />
+      <Footer />
     </div>
   );
 }
