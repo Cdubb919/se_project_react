@@ -10,8 +10,8 @@
 .modal__content_type_image {
   width: auto;
   height: auto;
-  top: 106px;
-  left: 471px;
+  top: auto;
+  left: auto;
   opacity: 1;
   border-radius: 16px;
 }
