@@ -16,6 +16,7 @@
     margin: 0 20px 0 auto;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .header__user-container {
