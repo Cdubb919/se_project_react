@@ -24,6 +24,15 @@ export default function ToggleSwitch() {
       >
         F
       </span>
+      <span
+        className={`toggle-switch__text toggle-switch__text_C ${
+          currentTemperatureUnit === "C"
+            ? "toggle-switch__text_color_white"
+            : ""
+        }`}
+      >
+        C
+      </span>
       <span className="toggle-switch__text toggle-switch__text_C">C</span>
     </label>
   );
