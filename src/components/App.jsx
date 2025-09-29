@@ -10,6 +10,9 @@ import Footer from "./Footer/Footer.jsx";
 import { filterWeatherData, getWeather } from "../utils/weatherApi.js";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnit.jsx";
 import AddItemModal from "./AddItemModal/AddItemModal.jsx";
+
+import { defaultClothingItems } from "../utils/constants";
+
 //import React from "react";
 
 function App() {
@@ -21,6 +24,7 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+  const [clothingItems,setClothingItems] = useState(defaultClothingItems);
 
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
@@ -35,7 +39,11 @@ function App() {
     setActiveModal("add-garment");
   };
 
-  const onAddItem = (data) => {};
+  const onAddItem = (inputValues) => {
+    const newCardData = {name: inputValues.name, link: inputValues.link, weather: inputValues.weatherType,}
+    setClothingItems([...clothingItems, newCardData]);
+    closeActiveModal();
+  };
 
   const closeActiveModal = () => {
     setActiveModal("");
@@ -57,12 +65,13 @@ function App() {
       <div className="page">
         <div className="page__content">
           <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-          <Main weatherData={weatherData} handleCardClick={handleCardClick} />
+          <Main weatherData={weatherData} handleCardClick={handleCardClick} clothingItems={clothingItems} />
           <Footer />
         </div>
         <AddItemModal
           onClose={closeActiveModal}
           isOpen={activeModal === "add-garment"}
+          onAddItem={onAddItem}
         />
         <ItemModal
           activeModal={activeModal}
