@@ -12,13 +12,11 @@ import { filterWeatherData, getWeather } from "../utils/weatherApi.js";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnit.jsx";
 import AddItemModal from "./AddItemModal/AddItemModal.jsx";
 
-//import { defaultClothingItems } from "../utils/constants";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./Profile/Profile.jsx";
 import { Link } from "react-router-dom";
 import { addItem, getItems, removeItem } from "../utils/api.js";
 import api from "../utils/api.js";
-//import React from "react";
 import DeleteConfirmationModal from "./DeleteConfirmationModal/DeleteConfirmationModal.jsx";
 
 function App() {
@@ -55,8 +53,7 @@ function App() {
 
     addItem(newCardData)
       .then((data) => {
-        //setClothingItems([data, ...clothingItems, newCardData]);
-        setClothingItems([ItemModal, ...clothingItems]);
+        setClothingItems([data, ...clothingItems]);
         closeActiveModal();
       })
       .catch(console.error);
@@ -87,10 +84,10 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    removeItem(card._id)
+    removeItem(card.id)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item._id !== card._id)
+          prevItems.filter((item) => item.id !== card.id)
         );
         setActiveModal(null);
         setCardToDelete(null);

@@ -2,7 +2,6 @@ import "./Header.css";
 import wtwrlogo from "../../assets/wtwrlogo.svg";
 import wtwravataricon from "../../assets/wtwravataricon.svg";
 
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";

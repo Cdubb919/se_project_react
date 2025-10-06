@@ -25,7 +25,7 @@ function WeatherCard({ weatherData }) {
     weatherOption = filteredOptions[0];
   }
 
-  const weatherOptionUrl = weatherOptions[0]?.url;
+  const weatherOptionUrl = weatherOption.url;
   const weatherOptionCondition = weatherOptions[0]?.condition;
   const weatherOptionDay = weatherOptions[0]?.day;
 

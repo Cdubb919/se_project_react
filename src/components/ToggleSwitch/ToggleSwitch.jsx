@@ -11,6 +11,7 @@ export default function ToggleSwitch() {
     <label className="toggle-switch">
       <input
         onChange={handleToggleSwitchChange}
+        checked={currentTemperatureUnit === "C"}
         type="checkbox"
         className="toggle-switch__checkbox"
       />
@@ -33,7 +34,6 @@ export default function ToggleSwitch() {
       >
         C
       </span>
-      <span className="toggle-switch__text toggle-switch__text_C">C</span>
     </label>
   );
 }
