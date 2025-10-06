@@ -1,7 +1,14 @@
 import "../ModalWithForm/ModalWithForm.css";
 import closeIcon from "../../assets/closeiconnn.png";
 
-function ModalWithForm({ children, buttonText = "Submit", title, isOpen, onClose, onSubmit }) {
+function ModalWithForm({
+  children,
+  buttonText = "Submit",
+  title,
+  isOpen,
+  onClose,
+  onSubmit,
+}) {
   return (
     <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
       <div className="modal__content">
@@ -19,6 +26,5 @@ function ModalWithForm({ children, buttonText = "Submit", title, isOpen, onClose
     </div>
   );
 }
-
 
 export default ModalWithForm;

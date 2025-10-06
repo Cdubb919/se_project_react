@@ -2,6 +2,9 @@ import "./Header.css";
 import wtwrlogo from "../../assets/wtwrlogo.svg";
 import wtwravataricon from "../../assets/wtwravataricon.svg";
 
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 
 function Header({ handleAddClick, weatherData }) {
@@ -18,7 +21,7 @@ function Header({ handleAddClick, weatherData }) {
       </p>
 
       <ToggleSwitch />
-      
+
       <button
         onClick={handleAddClick}
         type="button"
@@ -26,14 +29,16 @@ function Header({ handleAddClick, weatherData }) {
       >
         + Add clothes
       </button>
-      <div className="header__user-container">
-        <p className="header__username">Terrance Tegegne</p>
-        <img
-          src={wtwravataricon}
-          alt="Terrance Tegegne"
-          className="header__avatar"
-        />
-      </div>
+      <NavLink className="header__nav-link" to="/profile">
+        <div className="header__user-container">
+          <p className="header__username">Terrance Tegegne</p>
+          <img
+            src={wtwravataricon}
+            alt="Terrance Tegegne"
+            className="header__avatar"
+          />
+        </div>
+      </NavLink>
     </header>
   );
 }
