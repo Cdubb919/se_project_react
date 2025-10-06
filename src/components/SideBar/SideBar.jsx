@@ -1,4 +1,5 @@
 import wtwravataricon from "../../assets/wtwravataricon.svg";
+import "./SideBar.css";
 
 function SideBar() {
   return (
