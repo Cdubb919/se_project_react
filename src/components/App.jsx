@@ -64,18 +64,44 @@ function App() {
   };
 
   useEffect(() => {
-    getWeather(coordinates, APIkey)
-      .then((data) => {
-        const filteredData = filterWeatherData(data);
-        setWeatherData(filteredData);
-      })
-      .catch(console.error);
+    if (!navigator.geolocation) {
+      console.error("Geolocation is not supported by this browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userCoordinates = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+
+        getWeather(userCoordinates, APIkey)
+          .then((data) => {
+            const filteredData = filterWeatherData(data);
+            setWeatherData(filteredData);
+          })
+          .catch(console.error);
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        const fallbackCoordinates = {
+          latitude: 29.9466752,
+          longitude: -95.6268544,
+        };
+        getWeather(fallbackCoordinates, APIkey)
+          .then((data) => {
+            const filteredData = filterWeatherData(data);
+            setWeatherData(filteredData);
+          })
+          .catch(console.error);
+      }
+    );
 
     getItems()
       .then((data) => {
         setClothingItems(data);
       })
-      .catch(console.error);
+     .catch(console.error);
   }, []);
 
   function openConfirmationModal(card) {
@@ -84,12 +110,12 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    removeItem(card.id)
+    removeItem(card._id)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item.id !== card.id)
+          prevItems.filter((item) => item.id !== card._id)
         );
-        setActiveModal(null);
+        closeActiveModal();
         setCardToDelete(null);
       })
       .catch((err) => console.error("Delete failed:", err));
@@ -115,7 +141,13 @@ function App() {
             />
             <Route
               path="/profile"
-              element={<Profile clothingItems={clothingItems} />}
+              element={
+                <Profile
+                  clothingItems={clothingItems}
+                  onAddClick={handleAddClick}
+                  handleCardClick={handleCardClick}
+                />
+              }
             />
           </Routes>
 
@@ -132,14 +164,14 @@ function App() {
           onClose={closeActiveModal}
         />
 
-        {activeModal === "preview" && (
+        {/* {activeModal === "preview" && (
           <ItemModal
             activeModal={activeModal}
             onClose={() => setActiveModal(null)}
             card={selectedCard}
             onConfirmDelete={openConfirmationModal}
           />
-        )}
+        )} */}
 
         {activeModal === "confirm" && (
           <DeleteConfirmationModal

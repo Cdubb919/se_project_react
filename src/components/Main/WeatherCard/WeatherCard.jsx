@@ -1,4 +1,3 @@
-//import weathercardimg from "../../../assets/weathercardimg.svg";
 import "./WeatherCard.css";
 import {
   weatherOptions,
