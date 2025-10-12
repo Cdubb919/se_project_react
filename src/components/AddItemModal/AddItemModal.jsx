@@ -9,11 +9,15 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
     weatherType: "",
   };
 
-  const { values, handleChange } = useForm(defaultValues);
+  const { values, handleChange, setValues } = useForm(defaultValues);
+    
+  const handleReset = () => {
+    setValues(defaultValues);
+  };
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddItem(values);
+    onAddItem(values, handleReset);
     setValues(defaultValues);
   }
 

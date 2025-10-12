@@ -11,9 +11,10 @@ function DeleteConfirmationModal({ card, onClose, onDelete }) {
         <h3 className="modal__warning">
           Are you sure you want to delete this item?
         </h3>
+        <p className="modal__subtitle">This action is irreversible.</p>
         <div className="modal__actions">
           <button className="modal__confirm" onClick={() => onDelete(card)}>
-            Yes, Delete
+            Yes, Delete Item
           </button>
           <button className="modal__cancel" onClick={onClose}>
             Cancel

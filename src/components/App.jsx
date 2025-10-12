@@ -44,7 +44,7 @@ function App() {
     setActiveModal("add-garment");
   };
 
-  const onAddItem = (inputValues) => {
+  const onAddItem = (inputValues, handleReset) => {
     const newCardData = {
       name: inputValues.name,
       imageUrl: inputValues.imageUrl,
@@ -55,6 +55,7 @@ function App() {
       .then((data) => {
         setClothingItems([data, ...clothingItems]);
         closeActiveModal();
+        handleReset();
       })
       .catch(console.error);
   };
@@ -101,7 +102,7 @@ function App() {
       .then((data) => {
         setClothingItems(data);
       })
-     .catch(console.error);
+      .catch(console.error);
   }, []);
 
   function openConfirmationModal(card) {
@@ -113,7 +114,7 @@ function App() {
     removeItem(card._id)
       .then(() => {
         setClothingItems((prevItems) =>
-          prevItems.filter((item) => item.id !== card._id)
+          prevItems.filter((item) => item._id !== card._id)
         );
         closeActiveModal();
         setCardToDelete(null);
@@ -162,16 +163,8 @@ function App() {
           activeModal={activeModal}
           card={selectedCard}
           onClose={closeActiveModal}
+          onConfirmDelete={openConfirmationModal}
         />
-
-        {/* {activeModal === "preview" && (
-          <ItemModal
-            activeModal={activeModal}
-            onClose={() => setActiveModal(null)}
-            card={selectedCard}
-            onConfirmDelete={openConfirmationModal}
-          />
-        )} */}
 
         {activeModal === "confirm" && (
           <DeleteConfirmationModal

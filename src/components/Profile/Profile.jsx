@@ -2,7 +2,7 @@ import ClothesSection from "../ClothesSection/ClothesSection";
 import SideBar from "../SideBar/SideBar";
 import "./Profile.css";
 
-function Profile({ clothingItems, onAddClick }) {
+function Profile({ clothingItems, onAddClick, handleCardClick }) {
   return (
     <div className="profile">
       <section className="profile__sidebar">
