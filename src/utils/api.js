@@ -1,40 +1,55 @@
-const api = {};
-
 const baseUrl = "http://localhost:3001";
 
-const headers = {
+const handleResponse = (res) => {
+  if (res.ok) return res.json();
+  return res.json().then((err) => Promise.reject(err));
+};
+
+const getHeaders = (token) => ({
   "Content-Type": "application/json",
+  ...(token && { authorization: `Bearer ${token}` }),
+});
+
+export const getItems = () => {
+  return fetch(`${BASE_URL}/items`, {
+    method: "GET",
+    headers: getHeaders(),
+  }).then(handleResponse);
 };
 
-const handleServerResponse = (res) => {
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-};
-
-export const getItems = () =>
-  fetch(`${baseUrl}/items`, { headers }).then(handleServerResponse);
-
-// export async function getItems() {
-//   const response = await fetch('http://localhost:3001/items');
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-//   return await response.json();
-// }
-
-
-export const addItem = ({ name, imageUrl, weather }) => {
-  return fetch(`${baseUrl}/items`, {
+export const addItem = (item, token) => {
+  return fetch(`${BASE_URL}/items`, {
     method: "POST",
-    headers,
-    body: JSON.stringify({ name, imageUrl, weather }),
-  }).then(handleServerResponse);
+    headers: getHeaders(token),
+    body: JSON.stringify(item),
+  }).then(handleResponse);
 };
 
-export const removeItem = (itemID) => {
-  return fetch(`${baseUrl}/items/${itemID}`, {
+export const removeItem = (id, token) => {
+  return fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",
-    headers,
-  }).then(handleServerResponse);
+    headers: getHeaders(token),
+  }).then(handleResponse);
 };
 
-export default api;
+export const addCardLike = (id, token) => {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "PUT",
+    headers: getHeaders(token),
+  }).then(handleResponse);
+};
+
+export const removeCardLike = (id, token) => {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "DELETE",
+    headers: getHeaders(token),
+  }).then(handleResponse);
+};
+
+export const updateUser = (userData, token) => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: getHeaders(token),
+    body: JSON.stringify(userData),
+  }).then(handleResponse);
+};

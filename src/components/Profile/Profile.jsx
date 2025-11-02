@@ -1,20 +1,24 @@
-import ClothesSection from "../ClothesSection/ClothesSection";
-import SideBar from "../SideBar/SideBar";
 import "./Profile.css";
+import ClothesSection from "../ClothesSection/ClothesSection.jsx";
+import SideBar from "../SideBar/SideBar.jsx";
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 
 function Profile({ clothingItems, onAddClick, handleCardClick }) {
+  const currentUser = useContext(CurrentUserContext);
+
+  const filteredItems = clothingItems.filter(
+    (item) => item.owner === currentUser._id
+  );
+
   return (
     <div className="profile">
-      <section className="profile__sidebar">
-        <SideBar />
-      </section>
-      <section className="profile__clothing-items">
-        <ClothesSection
-          clothingItems={clothingItems}
-          onAddClick={onAddClick}
-          handleCardClick={handleCardClick}
-        />
-      </section>
+      <SideBar />
+      <ClothesSection
+        clothingItems={filteredItems}
+        onAddClick={onAddClick}
+        handleCardClick={handleCardClick}
+      />
     </div>
   );
 }
