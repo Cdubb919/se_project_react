@@ -1,3 +1,4 @@
+import useState from "react";
 import "./RegisterModal.css";
 
 function RegisterModal({ isOpen, onClose, onRegister }) {
