@@ -1,11 +1,11 @@
-import React, { useState } from "react";
 import "./RegisterModal.css";
 
 function RegisterModal({ isOpen, onClose, onRegister }) {
   const [formData, setFormData] = useState({
+    name: "",
+    avatar: "",
     email: "",
     password: "",
-    name: "",
   });
 
   const handleChange = (e) => {
@@ -38,6 +38,19 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
               required
             />
           </label>
+
+          <label>
+            Avatar URL:
+            <input
+              type="url"
+              name="avatar"
+              placeholder="https://example.com/myphoto.jpg"
+              value={formData.avatar}
+              onChange={handleChange}
+              required
+            />
+          </label>
+
           <label>
             Email:
             <input
@@ -48,6 +61,7 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
               required
             />
           </label>
+
           <label>
             Password:
             <input
@@ -58,6 +72,7 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
               required
             />
           </label>
+
           <button type="submit">Register</button>
         </form>
       </div>

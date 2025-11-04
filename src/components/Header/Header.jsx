@@ -1,6 +1,5 @@
 import "./Header.css";
 import wtwrlogo from "../../assets/wtwrlogo.svg";
-import wtwravataricon from "../../assets/wtwravataricon.svg";
 import { NavLink } from "react-router-dom";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useContext } from "react";
@@ -67,17 +66,6 @@ function Header({
               {renderUserAvatar()}
             </div>
           </NavLink>
-
-          {/* <NavLink className="header__nav-link" to="/profile">
-            <div className="header__user-container">
-              <p className="header__username">{currentUser.name}</p>
-              <img
-                src={currentUser.avatar || wtwravataricon}
-                alt={currentUser.name || "User avatar"}
-                className="header__avatar"
-              />
-            </div>
-          </NavLink> */}
 
           <button
             onClick={onSignOut}

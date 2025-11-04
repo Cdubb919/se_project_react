@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import CurrentUserContext from "../../../contexts/CurrentUserContext.jsx";
+import CurrentUserContext from "../../../contexts/CurrentUserContext";
 import "./ItemCard.css";
 
 function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
@@ -21,7 +21,9 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
       <div className="item-card__info">
         <h3>{item.name}</h3>
         <button
-          className={`item__like-button ${isLiked ? "item__like-button_active" : ""}`}
+          className={`item__like-button ${
+            isLiked ? "item__like-button_active" : ""
+          }`}
           onClick={handleLikeClick}
           disabled={!isLoggedIn}
         >
@@ -33,4 +35,3 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
 }
 
 export default ItemCard;
-

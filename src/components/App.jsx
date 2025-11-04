@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import "./App.css";
-import { coordinates, APIkey } from "../utils/constants.js";
+import { coordinates, apiKey } from "../utils/constants.js";
 import { getWeather, filterWeatherData } from "../utils/weatherApi.js";
 import {
   getItems,
@@ -148,9 +148,11 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = (coords) =>
-      getWeather(coords, APIkey)
+      getWeather(coords, apiKey)
         .then((data) => setWeatherData(filterWeatherData(data)))
         .catch(console.error);
+
+    const fallbackCoords = coordinates; 
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -161,11 +163,11 @@ function App() {
           }),
         (error) => {
           console.error("Geolocation error:", error);
-          fetchWeather(coordinates.fallback);
+          fetchWeather(fallbackCoords);
         }
       );
     } else {
-      fetchWeather(coordinates.fallback);
+      fetchWeather(fallbackCoords);
     }
 
     getItems().then(setClothingItems).catch(console.error);
@@ -291,3 +293,4 @@ function App() {
 }
 
 export default App;
+

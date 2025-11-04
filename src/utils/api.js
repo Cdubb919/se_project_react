@@ -1,14 +1,4 @@
-const baseUrl = "http://localhost:3001";
-
-const handleResponse = (res) => {
-  if (res.ok) return res.json();
-  return res.json().then((err) => Promise.reject(err));
-};
-
-const getHeaders = (token) => ({
-  "Content-Type": "application/json",
-  ...(token && { authorization: `Bearer ${token}` }),
-});
+import { BASE_URL, handleResponse, getHeaders } from "./apiHelpers";
 
 export const getItems = () => {
   return fetch(`${BASE_URL}/items`, {
