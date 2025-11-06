@@ -1,4 +1,4 @@
-import useState from "react";
+import { useState } from "react";
 import "./LoginModal.css";
 
 function LoginModal({ isOpen, onClose, onLogin }) {
@@ -10,15 +10,14 @@ function LoginModal({ isOpen, onClose, onLogin }) {
     onLogin({ email, password });
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal">
+    <div className={`modal ${isOpen ? "modal_opened" : ""}`}>
+      <div className="modal__overlay" onClick={onClose}></div>
+      <div className="modal__content">
         <button className="modal__close" onClick={onClose}>
           &times;
         </button>
-        <h2>Login</h2>
+        <h2 className="modal__title">Login</h2>
         <form className="modal__form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -26,6 +25,7 @@ function LoginModal({ isOpen, onClose, onLogin }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            className="modal__input"
           />
           <input
             type="password"
@@ -33,8 +33,11 @@ function LoginModal({ isOpen, onClose, onLogin }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            className="modal__input"
           />
-          <button type="submit">Log In</button>
+          <button type="submit" className="modal__submit">
+            Log In
+          </button>
         </form>
       </div>
     </div>

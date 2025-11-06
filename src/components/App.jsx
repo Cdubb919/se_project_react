@@ -152,7 +152,7 @@ function App() {
         .then((data) => setWeatherData(filterWeatherData(data)))
         .catch(console.error);
 
-    const fallbackCoords = coordinates; 
+    const fallbackCoords = coordinates;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -293,4 +293,3 @@ function App() {
 }
 
 export default App;
-

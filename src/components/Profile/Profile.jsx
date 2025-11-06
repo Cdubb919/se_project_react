@@ -15,7 +15,7 @@ function Profile({ clothingItems, onAddClick, handleCardClick }) {
     <div className="profile">
       <SideBar />
       <ClothesSection
-        clothingItems={userItems}
+        clothingItems={filteredItems}
         onAddClick={handleAddClick}
         handleCardClick={handleCardClick}
         onCardLike={handleCardLike}
