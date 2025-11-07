@@ -4,7 +4,13 @@ import SideBar from "../SideBar/SideBar.jsx";
 import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 
-function Profile({ clothingItems, onAddClick, handleCardClick }) {
+function Profile({
+  clothingItems,
+  onAddClick,
+  handleCardClick,
+  handleCardLike,
+  isLoggedIn,
+}) {
   const currentUser = useContext(CurrentUserContext);
 
   const filteredItems = clothingItems.filter(
@@ -16,7 +22,7 @@ function Profile({ clothingItems, onAddClick, handleCardClick }) {
       <SideBar />
       <ClothesSection
         clothingItems={filteredItems}
-        onAddClick={handleAddClick}
+        onAddClick={onAddClick}
         handleCardClick={handleCardClick}
         onCardLike={handleCardLike}
         isLoggedIn={isLoggedIn}

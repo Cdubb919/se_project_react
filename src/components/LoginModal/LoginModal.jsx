@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./LoginModal.css";
 
-function LoginModal({ isOpen, onClose, onLogin }) {
+function LoginModal({ isOpen, onClose, onLogin, onSwitchToSignUp }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +17,7 @@ function LoginModal({ isOpen, onClose, onLogin }) {
         <button className="modal__close" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal__title">Login</h2>
+        <h2>Log In</h2>
         <form className="modal__form" onSubmit={handleSubmit}>
           <input
             type="email"
@@ -25,7 +25,6 @@ function LoginModal({ isOpen, onClose, onLogin }) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="modal__input"
           />
           <input
             type="password"
@@ -33,11 +32,24 @@ function LoginModal({ isOpen, onClose, onLogin }) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="modal__input"
           />
-          <button type="submit" className="modal__submit">
-            Log In
-          </button>
+
+          <div className="modal__actions">
+            <button type="submit" className="modal__submit">
+              Log In
+            </button>
+
+            <button
+              type="button"
+              className="modal__switch-btn"
+              onClick={() => {
+                onClose(); 
+                onSwitchToSignUp(); 
+              }}
+            >
+              or Sign Up
+            </button>
+          </div>
         </form>
       </div>
     </div>

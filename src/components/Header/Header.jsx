@@ -7,7 +7,7 @@ import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 
 function Header({
   handleAddClick,
-  weatherData,
+  weatherData = {},
   onLoginClick,
   onRegisterClick,
   onSignOut,
@@ -41,11 +41,12 @@ function Header({
   return (
     <header className="header">
       <NavLink to="/" className="header__home-link">
-        <img className="header__logo" alt="wtwr-logo" src={wtwrlogo} />
+        <img className="header__logo" alt="WTWR logo" src={wtwrlogo} />
       </NavLink>
 
       <p className="header__date-and-location">
-        {currentDate}, {weatherData.city}
+        {currentDate}
+        {weatherData?.city ? `, ${weatherData.city}` : ""}
       </p>
 
       <ToggleSwitch />
@@ -60,9 +61,9 @@ function Header({
             + Add clothes
           </button>
 
-          <NavLink className="header__nav-link" to="/profile">
+          <NavLink to="/profile" className="header__nav-link">
             <div className="header__user-container">
-              <p className="header__username">{currentUser.name}</p>
+              <p className="header__username">{currentUser?.name || "User"}</p>
               {renderUserAvatar()}
             </div>
           </NavLink>

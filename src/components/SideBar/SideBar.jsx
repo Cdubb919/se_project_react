@@ -1,6 +1,7 @@
 import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 import wtwravataricon from "../../assets/wtwravataricon.svg";
 import "./SideBar.css";
+import { useContext } from "react";
 
 function SideBar({ onEditProfile, onSignOut }) {
   const currentUser = useContext(CurrentUserContext);

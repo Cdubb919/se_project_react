@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import "./EditProfileModal.css";
+import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import CurrentUserContext from "../../contexts/CurrentUserContext.js";
+import "./EditProfileModal.css";
 
 function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
   const currentUser = useContext(CurrentUserContext);
@@ -20,40 +21,36 @@ function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
     onUpdateUser({ name, avatar });
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal">
-      <div className="modal__content">
-        <h2>Edit Profile</h2>
-        <form onSubmit={handleSubmit} className="modal__form">
-          <label>
-            Name
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </label>
-          <label>
-            Avatar URL
-            <input
-              type="url"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-              required
-            />
-          </label>
-          <button type="submit" className="modal__submit-btn">
-            Save
-          </button>
-          <button type="button" onClick={onClose} className="modal__close-btn">
-            Cancel
-          </button>
-        </form>
-      </div>
-    </div>
+    <ModalWithForm
+      title="Edit Profile"
+      buttonText="Save"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+    >
+      <label className="modal__label">
+        Name
+        <input
+          className="modal__input"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </label>
+
+      <label className="modal__label">
+        Avatar URL
+        <input
+          className="modal__input"
+          type="url"
+          value={avatar}
+          onChange={(e) => setAvatar(e.target.value)}
+          required
+        />
+      </label>
+    </ModalWithForm>
   );
 }
 
