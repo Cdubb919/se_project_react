@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 
-function RegisterModal({ isOpen, onClose, onRegister }) {
+function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
   const [email, setEmail] = useState("");
@@ -20,11 +20,6 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister({ name, avatar, email, password });
-
-    setName("");
-    setAvatar("");
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -78,6 +73,21 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
           required
         />
       </label>
+
+      <div className="modal__switch-container">
+        <button
+          type="button"
+          className="modal__switch-btn"
+          onClick={() => {
+            onClose();
+            if (typeof onSwitchToLogin === "function") {
+              onSwitchToLogin();
+            }
+          }}
+        >
+          Already have an account? Log in
+        </button>
+      </div>
     </ModalWithForm>
   );
 }

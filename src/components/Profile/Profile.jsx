@@ -10,6 +10,8 @@ function Profile({
   handleCardClick,
   handleCardLike,
   isLoggedIn,
+  onEditProfile,
+  onSignOut,
 }) {
   const currentUser = useContext(CurrentUserContext);
 
@@ -19,7 +21,7 @@ function Profile({
 
   return (
     <div className="profile">
-      <SideBar />
+      <SideBar onEditProfile={onEditProfile} onSignOut={onSignOut} />
       <ClothesSection
         clothingItems={filteredItems}
         onAddClick={onAddClick}

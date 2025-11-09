@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./LoginModal.css";
 
-function LoginModal({ isOpen, onClose, onLogin, onSwitchToSignUp }) {
+function LoginModal({ isOpen, onClose, onLogin, onSignUpClick }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -43,8 +43,8 @@ function LoginModal({ isOpen, onClose, onLogin, onSwitchToSignUp }) {
               type="button"
               className="modal__switch-btn"
               onClick={() => {
-                onClose(); 
-                onSwitchToSignUp(); 
+                onClose();
+                onSignUpClick();
               }}
             >
               or Sign Up
