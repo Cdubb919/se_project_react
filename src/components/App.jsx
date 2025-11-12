@@ -48,7 +48,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      Promise.all([getContent(token), getItems()])
+      Promise.all([getContent(token), getItems(token)])
         .then(([userData, items]) => {
           setCurrentUser(userData);
           setClothingItems(items);
@@ -62,7 +62,7 @@ function App() {
   }, []);
 
   const handleLogin = ({ email, password }) => {
-    authorize({ email, password })
+    authorize(email, password)
       .then((data) => {
         localStorage.setItem("jwt", data.token);
         return getContent(data.token);
@@ -79,8 +79,8 @@ function App() {
   };
 
   const handleRegister = ({ name, avatar, email, password }) => {
-    register({ name, avatar, email, password })
-      .then(() => authorize({ email, password }))
+    register(name, avatar, email, password)
+      .then(() => authorize(email, password))
       .then((data) => {
         localStorage.setItem("jwt", data.token);
         return getContent(data.token);

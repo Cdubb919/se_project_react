@@ -1,9 +1,9 @@
 import { BASE_URL, handleResponse, getHeaders } from "./apiHelpers";
 
-export const getItems = () => {
+export const getItems = (token) => {
   return fetch(`${BASE_URL}/items`, {
     method: "GET",
-    headers: getHeaders(),
+    headers: getHeaders(token),
   }).then(handleResponse);
 };
 
