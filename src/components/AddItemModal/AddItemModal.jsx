@@ -6,7 +6,7 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
   const defaultValues = {
     name: "",
     imageUrl: "",
-    weatherType: "",
+    weather: "",
   };
 
   const { values, handleChange, setValues } = useForm(defaultValues);
@@ -62,10 +62,10 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           <input
             id="hot"
             type="radio"
-            name="weatherType"
+            name="weather"
             className="modal__radio-input"
             value="hot"
-            checked={values.weatherType === "hot"}
+            checked={values.weather === "hot"}
             onChange={handleChange}
           />{" "}
           Hot
@@ -74,10 +74,10 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           <input
             id="warm"
             type="radio"
-            name="weatherType"
+            name="weather"
             className="modal__radio-input"
             value="warm"
-            checked={values.weatherType === "warm"}
+            checked={values.weather === "warm"}
             onChange={handleChange}
           />{" "}
           Warm
@@ -86,10 +86,10 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           <input
             id="cold"
             type="radio"
-            name="weatherType"
+            name="weather"
             className="modal__radio-input"
             value="cold"
-            checked={values.weatherType === "cold"}
+            checked={values.weather === "cold"}
             onChange={handleChange}
           />{" "}
           Cold

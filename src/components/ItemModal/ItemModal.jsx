@@ -4,7 +4,7 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function ItemModal({
-  activeModal,
+  isOpen,
   onClose,
   card,
   onConfirmDelete,
@@ -12,12 +12,12 @@ function ItemModal({
 }) {
   const currentUser = useContext(CurrentUserContext);
 
-  if (activeModal !== "preview" || !card) return null;
+  if ( !card) return null;
 
   const isOwn = currentUser && card.owner === currentUser._id;
 
   return (
-    <div className="modal modal_opened">
+    <div className={`modal ${isOpen ? "modal_opened": ""}`}>
       <div className="modal__content modal__content_type_image">
         <button onClick={onClose} type="button" className="modal__close">
           <img src={closeIcon} alt="close-icon" className="modal__close-icon" />
@@ -29,7 +29,7 @@ function ItemModal({
           <h2 className="modal__caption">{card.name}</h2>
           <p className="modal__weather">Weather: {card.weather}</p>
 
-          {isLoggedIn && isOwn && (
+          { isOwn && (
             <button
               className="modal__delete-button"
               onClick={() => onConfirmDelete(card)}

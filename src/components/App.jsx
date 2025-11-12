@@ -40,6 +40,7 @@ function App() {
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isAddItemModalOpen, setIsAddItemModalOpen] = useState(false);
   const [isItemModalOpen, setIsItemModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   const [clothingItems, setClothingItems] = useState([]);
 
@@ -47,11 +48,13 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+    getItems()
+      .then((data) => setClothingItems(data))
+      .catch(console.error);
     if (token) {
-      Promise.all([getContent(token), getItems(token)])
-        .then(([userData, items]) => {
+      getContent(token)
+        .then((userData) => {
           setCurrentUser(userData);
-          setClothingItems(items);
           setIsLoggedIn(true);
         })
         .catch((err) => {
@@ -142,12 +145,14 @@ function App() {
     removeItem(item._id, token)
       .then(() => {
         setClothingItems((prev) => prev.filter((i) => i._id !== item._id));
+        setIsItemModalOpen(false)
       })
       .catch((err) => console.error("Delete error:", err));
   };
 
   const handleCardClick = (item) => {
     setIsItemModalOpen(true);
+    setSelectedCard(item);
   };
 
   const closeAllModals = () => {
@@ -242,7 +247,7 @@ function App() {
             onAddItem={handleAddItem}
           />
 
-          <ItemModal isOpen={isItemModalOpen} onClose={closeAllModals} />
+          <ItemModal isOpen={isItemModalOpen} onClose={closeAllModals} card={selectedCard} onConfirmDelete={handleCardDelete}/>
         </div>
       </CurrentTemperatureUnitContext.Provider>
     </CurrentUserContext.Provider>

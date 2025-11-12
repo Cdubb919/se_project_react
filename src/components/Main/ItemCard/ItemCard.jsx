@@ -9,7 +9,7 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
 
   const handleLike = () => {
     if (isLoggedIn && onCardLike) {
-      onCardLike(item._id, isLiked);
+      onCardLike(item, isLiked);
     }
   };
 
