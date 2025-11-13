@@ -1,25 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "../../hooks/useForm";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./RegisterModal.css";
 
 function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange, resetForm } = useForm({
+    name: "",
+    avatar: "",
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     if (isOpen) {
-      setName("");
-      setAvatar("");
-      setEmail("");
-      setPassword("");
+      resetForm();
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister({ name, avatar, email, password });
+    onRegister(values);
   };
 
   return (
@@ -35,9 +35,10 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
         Name*
         <input
           type="text"
+          name="name"
           placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={values.name}
+          onChange={handleChange}
           required
         />
       </label>
@@ -46,9 +47,10 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
         Avatar URL
         <input
           type="url"
+          name="avatar"
           placeholder="Avatar URL"
-          value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
+          value={values.avatar}
+          onChange={handleChange}
         />
       </label>
 
@@ -56,9 +58,10 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
         Email*
         <input
           type="email"
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={values.email}
+          onChange={handleChange}
           required
         />
       </label>
@@ -67,9 +70,10 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
         Password*
         <input
           type="password"
+          name="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={values.password}
+          onChange={handleChange}
           required
         />
       </label>
