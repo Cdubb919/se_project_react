@@ -85,6 +85,7 @@ function Header({
           >
             Log in
           </button>
+
           <button
             onClick={onRegisterClick}
             type="button"

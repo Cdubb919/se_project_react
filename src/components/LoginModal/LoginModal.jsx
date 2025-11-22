@@ -4,13 +4,16 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import "./LoginModal.css";
 
 function LoginModal({ isOpen, onClose, onLogin, onSignUpClick }) {
-  const { values, handleChange, resetForm } = useForm({ email: "", password: "" });
+  const { values, handleChange, resetForm } = useForm({
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen, resetForm]);
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

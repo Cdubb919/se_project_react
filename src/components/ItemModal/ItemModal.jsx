@@ -1,43 +1,33 @@
+import React from "react";
 import "./ItemModal.css";
+import likeicon from "../../assets/likeicon.svg";
 import closeIcon from "../../assets/closeiconnn.png";
-import { useContext } from "react";
-import CurrentUserContext from "../../contexts/CurrentUserContext";
 
-function ItemModal({
-  isOpen,
-  onClose,
-  card,
-  onConfirmDelete,
-  isLoggedIn,
-}) {
-  const currentUser = useContext(CurrentUserContext);
-
-  if ( !card) return null;
-
-  const isOwn = currentUser && card.owner === currentUser._id;
+function ItemModal({ card, onClose, onDelete }) {
+  if (!card) return null;
 
   return (
-    <div className={`modal ${isOpen ? "modal_opened": ""}`}>
-      <div className="modal__content modal__content_type_image">
-        <button onClick={onClose} type="button" className="modal__close">
-          <img src={closeIcon} alt="close-icon" className="modal__close-icon" />
+    <div className="modal modal_opened">
+      <div className="modal__content">
+        <button className="modal__close" onClick={onClose}>
+          <img src={closeIcon} alt="close" />
         </button>
 
-        <img src={card.imageUrl} alt="garment" className="modal__image" />
+        <img
+          src={card.imageUrl}
+          alt={card.name}
+          className="modal__image"
+        />
 
-        <div className="modal__footer">
-          <h2 className="modal__caption">{card.name}</h2>
-          <p className="modal__weather">Weather: {card.weather}</p>
+        <h2 className="modal__caption">{card.name}</h2>
+        <p className="modal__weather">Weather: {card.weather}</p>
 
-          { isOwn && (
-            <button
-              className="modal__delete-button"
-              onClick={() => onConfirmDelete(card)}
-            >
-              Delete
-            </button>
-          )}
-        </div>
+        <button
+          className="modal__delete-button"
+          onClick={() => onDelete(card)}
+        >
+          Delete Item
+        </button>
       </div>
     </div>
   );

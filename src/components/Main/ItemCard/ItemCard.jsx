@@ -1,13 +1,14 @@
 import { useContext } from "react";
+import CurrentUserContext from "../../../contexts/CurrentUserContext";
 import "./ItemCard.css";
-import CurrentUserContext from "../../../contexts/CurrentUserContext.js";
 
 function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
   const currentUser = useContext(CurrentUserContext);
 
   const isLiked = item.likes?.some((id) => id === currentUser?._id) || false;
 
-  const handleLike = () => {
+  const handleLike = (e) => {
+    e.stopPropagation(); 
     if (isLoggedIn && onCardLike) {
       onCardLike(item, isLiked);
     }
@@ -20,24 +21,17 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
   };
 
   return (
-    <li className="card">
-      <img
-        src={item.imageUrl}
-        alt={item.name}
-        className="card__image"
-        onClick={handleClick}
-      />
+    <li className="card" onClick={handleClick}>
+      <img src={item.imageUrl} alt={item.name} className="card__image" />
       <div className="card__info">
-        <h3 className="card__name">{item.name}</h3>
-
+        <p className="card__name">{item.name}</p>
         {isLoggedIn && (
           <button
-            className={`card__like-button ${
-              isLiked ? "card__like-button_liked" : ""
-            }`}
+            className={`card__like ${isLiked ? "card__like--active" : ""}`}
             onClick={handleLike}
-            aria-label={isLiked ? "Unlike" : "Like"}
-          />
+          >
+            ❤️
+          </button>
         )}
       </div>
     </li>
@@ -45,4 +39,3 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
 }
 
 export default ItemCard;
-

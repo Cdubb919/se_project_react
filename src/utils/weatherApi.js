@@ -1,21 +1,13 @@
-
 import { handleResponse } from "./apiHelpers";
 
+export const getWeather = (coords, apiKey) => {
+  const { latitude, longitude } = coords;
 
-  @param {{ latitude: number, longitude: number }} coords - User's latitude and longitude
-  @param {string} apiKey 
-  @returns {Promise<object>} 
- 
-export const getWeather = ({ latitude, longitude }, apiKey) => {
   return fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${apiKey}`
   ).then(handleResponse);
 };
 
-
-  @param {object} data - API response data
-  @returns {{ city: string, temp: { F: number, C: number }, type: string, condition: string, isDay: boolean }}
- 
 export const filterWeatherData = (data) => {
   const result = {};
   result.city = data.name;

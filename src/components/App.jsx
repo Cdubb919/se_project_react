@@ -9,6 +9,10 @@ import RegisterModal from "./RegisterModal/RegisterModal";
 import EditProfileModal from "./EditProfileModal/EditProfileModal";
 import AddItemModal from "./AddItemModal/AddItemModal";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
+import ItemModal from "./ItemModal/ItemModal";
+
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
 import { getWeather, filterWeatherData } from "../utils/weatherApi";
 import { getItems } from "../utils/api";
@@ -18,29 +22,59 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [weatherData, setWeatherData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  const handleLogin = ({ email, password }) => {
+    console.log("Logging in with:", email, password);
+
+    setIsLoggedIn(true);
+    setActiveModal("");
+  };
+
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+    setActiveModal("preview");
+  };
+
+  const [currentUser, setCurrentUser] = useState({
+    name: "User",
+    avatar: "",
+  });
+
+  const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
+
+  const handleAddItem = (itemData) => {
+    console.log("Adding item:", itemData);
+
+    setClothingItems((prev) => [...prev, itemData]);
+
+    setActiveModal("");
+  };
+
+  const handleDeleteItem = (card) => {
+    setClothingItems((prev) => prev.filter((item) => item._id !== card._id));
+    setActiveModal("");
+    setSelectedCard(null);
+  };
+
+  const handleToggleSwitchChange = () => {
+    setCurrentTemperatureUnit((prev) => (prev === "F" ? "C" : "F"));
+  };
 
   useEffect(() => {
-    const apiKey = "YOUR_OPENWEATHER_API_KEY";
+    const apiKey = "38f021d5b17cc38af69bb55222cda0e5";
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
         getWeather({ latitude, longitude }, apiKey)
-          .then((data) => {
-            const filtered = filterWeatherData(data);
-            setWeatherData(filtered);
-          })
+          .then((data) => setWeatherData(filterWeatherData(data)))
           .catch((err) => console.error("Weather fetch error:", err));
       },
-      (error) => {
-        console.error("Geolocation blocked or failed:", error);
-
-        const fallbackCoords = { latitude: 30.2672, longitude: -97.7431 };
-        getWeather(fallbackCoords, apiKey)
-          .then((data) => {
-            const filtered = filterWeatherData(data);
-            setWeatherData(filtered);
-          })
+      () => {
+        const fallback = { latitude: 30.2672, longitude: -97.7431 };
+        getWeather(fallback, apiKey)
+          .then((data) => setWeatherData(filterWeatherData(data)))
           .catch((err) => console.error("Weather fallback error:", err));
       }
     );
@@ -52,51 +86,91 @@ function App() {
       .catch((err) => console.error("Error loading clothing items:", err));
   }, []);
 
-  if (!weatherData) {
-    return <p className="loading">Loading weather...</p>;
-  }
+  if (!weatherData) return <p className="loading">Loading weather...</p>;
 
   return (
-    <div className="app">
-      <Header
-        city={weatherData.city}
-        onLogin={() => setActiveModal("login")}
-        onRegister={() => setActiveModal("register")}
-        isLoggedIn={isLoggedIn}
-      />
+    <CurrentTemperatureUnitContext.Provider
+      value={{ currentTemperatureUnit, handleToggleSwitchChange }}
+    >
+      <CurrentUserContext.Provider value={currentUser}>
+        <div className="app">
+          <Header
+            weatherData={weatherData}
+            onLoginClick={() => setActiveModal("login")}
+            onRegisterClick={() => setActiveModal("register")}
+            handleAddClick={() => setActiveModal("add-item")}
+            onSignOut={() => {
+              setIsLoggedIn(false);
+              localStorage.removeItem("jwt");
+            }}
+            isLoggedIn={isLoggedIn}
+          />
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Main weatherData={weatherData} clothingItems={clothingItems} />
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isLoggedIn={isLoggedIn}>
-              <Profile clothingItems={clothingItems} />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  weatherData={weatherData}
+                  clothingItems={clothingItems}
+                  handleCardClick={handleCardClick}
+                />
+              }
+            />
 
-      <Footer />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile clothingItems={clothingItems} />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
 
-      {activeModal === "login" && (
-        <LoginModal onClose={() => setActiveModal("")} />
-      )}
-      {activeModal === "register" && (
-        <RegisterModal onClose={() => setActiveModal("")} />
-      )}
-      {activeModal === "edit-profile" && (
-        <EditProfileModal onClose={() => setActiveModal("")} />
-      )}
-      {activeModal === "add-item" && (
-        <AddItemModal onClose={() => setActiveModal("")} />
-      )}
-    </div>
+          <Footer />
+
+          {activeModal === "login" && (
+            <LoginModal
+              isOpen={true}
+              onClose={() => setActiveModal("")}
+              onLogin={handleLogin}
+              onSignUpClick={() => setActiveModal("register")}
+            />
+          )}
+
+          {activeModal === "register" && (
+            <RegisterModal isOpen={true} onClose={() => setActiveModal("")} />
+          )}
+
+          {activeModal === "edit-profile" && (
+            <EditProfileModal
+              isOpen={true}
+              onClose={() => setActiveModal("")}
+            />
+          )}
+
+          {activeModal === "add-item" && (
+            <AddItemModal
+              isOpen={true}
+              onClose={() => setActiveModal("")}
+              onAddItem={handleAddItem}
+            />
+          )}
+
+          {activeModal === "preview" && selectedCard && (
+            <ItemModal
+              card={selectedCard}
+              onClose={() => {
+                setActiveModal("");
+                setSelectedCard(null);
+              }}
+              onDelete={handleDeleteItem}
+            />
+          )}
+        </div>
+      </CurrentUserContext.Provider>
+    </CurrentTemperatureUnitContext.Provider>
   );
 }
 

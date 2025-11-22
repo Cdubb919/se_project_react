@@ -1,58 +1,34 @@
-.modal__caption {
-  font-family: Cabinet Grotesk;
-  font-weight: 700;
-  font-style: bold;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: 0%;
-}
-
-.modal__content_type_image {
-  width: auto;
-  height: auto;
-  top: auto;
-  left: auto;
-  opacity: 1;
-  border-radius: 16px;
-}
-
-.modal__delete-button {
-  background: none;
-  border: none;
-  color: #FF4D00;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Cabinet Grotesk', sans-serif;
-  cursor: pointer;
-  padding: 0;
-  margin-top: 10px;
-  align-self: flex-end;
-  transition: opacity 0.2s ease;
-}
-
-.modal__delete-button:hover {
-  opacity: 0.8;
-  text-decoration: underline;
-}
-
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal_opened {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .modal__content {
   background: white;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 20px;
   position: relative;
   max-width: 400px;
+  width: 100%;
+  z-index: 2000;
 }
 
 .modal__image {
@@ -68,4 +44,25 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
+}
+
+.modal__caption {
+  font-family: "Cabinet Grotesk";
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 12px;
+}
+
+.modal__weather {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.modal__delete-button {
+  background: none;
+  border: none;
+  color: #ff4d00;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
 }
