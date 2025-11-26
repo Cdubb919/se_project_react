@@ -17,6 +17,8 @@
   border: none;
   background: none;
   cursor: pointer;
+  font-weight: 700;
+  font-family: Cabinet G;
 }
 
 .header__user-container {
@@ -50,4 +52,33 @@
   font-weight: bold;
   font-size: 18px;
   text-transform: uppercase;
+}
+
+.header__login-btn {
+  border: none;
+  font-weight: 700;
+  background: transparent;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.header__signup-btn {
+  border: none;
+  font-weight: 700;
+  background: transparent;
+  cursor: pointer;
+}
+
+.header__logout-btn {
+  border: none;
+  font-weight: 700;
+  background: transparent;
+  cursor: pointer;
+}
+
+.header__username {
+  border: none;
+  font-weight: 700;
+  background: transparent;
+  cursor: pointer;
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import "./ItemModal.css";
-import likeicon from "../../assets/likeicon.svg";
 import closeIcon from "../../assets/closeiconnn.png";
 
 function ItemModal({ card, onClose, onDelete }) {
@@ -13,14 +12,16 @@ function ItemModal({ card, onClose, onDelete }) {
           <img src={closeIcon} alt="close" />
         </button>
 
-        <img
-          src={card.imageUrl}
-          alt={card.name}
-          className="modal__image"
-        />
+        <div className="modal__body">
+          <img
+            src={card.imageUrl}
+            alt={card.name}
+            className="modal__image"
+          />
 
-        <h2 className="modal__caption">{card.name}</h2>
-        <p className="modal__weather">Weather: {card.weather}</p>
+          <h2 className="modal__caption">{card.name}</h2>
+          <p className="modal__weather">Weather: {card.weather}</p>
+        </div>
 
         <button
           className="modal__delete-button"
@@ -34,3 +35,4 @@ function ItemModal({ card, onClose, onDelete }) {
 }
 
 export default ItemModal;
+

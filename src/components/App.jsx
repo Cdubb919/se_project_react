@@ -15,7 +15,7 @@ import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
 
 import { getWeather, filterWeatherData } from "../utils/weatherApi";
-import { getItems } from "../utils/api";
+import { getItems, addCardLike, removeCardLike } from "../utils/api";
 
 function App() {
   const [activeModal, setActiveModal] = useState("");
@@ -25,10 +25,26 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   const handleLogin = ({ email, password }) => {
-    console.log("Logging in with:", email, password);
-
-    setIsLoggedIn(true);
-    setActiveModal("");
+    fetch("http://localhost:3001/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Login failed");
+        return res.json();
+      })
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setIsLoggedIn(true);
+          setActiveModal("");
+          console.log("Login successful, token stored:", data.token);
+        } else {
+          console.error("Login failed, no token returned:", data);
+        }
+      })
+      .catch((err) => console.error("Login error:", err));
   };
 
   const handleCardClick = (card) => {
@@ -44,17 +60,60 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
 
   const handleAddItem = (itemData) => {
-    console.log("Adding item:", itemData);
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      console.error("Must be logged in to add item");
+      return;
+    }
 
-    setClothingItems((prev) => [...prev, itemData]);
-
-    setActiveModal("");
+    fetch("http://localhost:3001/items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(itemData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to add item");
+        return res.json();
+      })
+      .then((newItem) => {
+        setClothingItems((prev) => [...prev, newItem]);
+        setActiveModal("");
+      })
+      .catch((err) => console.error("Error adding item:", err));
   };
 
   const handleDeleteItem = (card) => {
     setClothingItems((prev) => prev.filter((item) => item._id !== card._id));
     setActiveModal("");
     setSelectedCard(null);
+  };
+
+  const handleLike = (item, isLiked) => {
+    if (!item || !item._id) {
+      console.error("Cannot like item without _id:", item);
+      return;
+    }
+
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      console.error("Cannot like item: No JWT token found");
+      return;
+    }
+
+    const apiCall = isLiked
+      ? removeCardLike(item._id, token)
+      : addCardLike(item._id, token);
+
+    apiCall
+      .then((updatedItem) => {
+        setClothingItems((prev) =>
+          prev.map((i) => (i._id === updatedItem._id ? updatedItem : i))
+        );
+      })
+      .catch((err) => console.error("Error liking item:", err));
   };
 
   const handleToggleSwitchChange = () => {
@@ -114,6 +173,8 @@ function App() {
                   weatherData={weatherData}
                   clothingItems={clothingItems}
                   handleCardClick={handleCardClick}
+                  onCardLike={handleLike}
+                  isLoggedIn={isLoggedIn}
                 />
               }
             />

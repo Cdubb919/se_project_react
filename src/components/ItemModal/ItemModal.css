@@ -28,12 +28,9 @@
   position: relative;
   max-width: 400px;
   width: 100%;
-  z-index: 2000;
-}
-
-.modal__image {
-  width: 100%;
-  border-radius: 10px;
+  display: flex;
+  flex-direction: column;   
+  gap: 16px;
 }
 
 .modal__close {
@@ -42,8 +39,17 @@
   right: 15px;
   background: none;
   border: none;
-  font-size: 24px;
   cursor: pointer;
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__image {
+  width: 100%;
+  border-radius: 10px;
 }
 
 .modal__caption {
@@ -62,7 +68,8 @@
   background: none;
   border: none;
   color: #ff4d00;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: auto;         
+  align-self: flex-start;   
 }
