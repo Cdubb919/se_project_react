@@ -10,6 +10,7 @@ import EditProfileModal from "./EditProfileModal/EditProfileModal";
 import AddItemModal from "./AddItemModal/AddItemModal";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute";
 import ItemModal from "./ItemModal/ItemModal";
+import "./App.css";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitContext";
