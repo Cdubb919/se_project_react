@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
+import { addItem } from "../utils/api";
+import { register, login } from "../utils/auth";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Profile from "./Profile/Profile";
@@ -17,32 +19,41 @@ import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitCon
 
 import { getWeather, filterWeatherData } from "../utils/weatherApi";
 import { getItems, addCardLike, removeCardLike } from "../utils/api";
+import { getContent, authorize } from "../utils/auth";
 
 function App() {
+  const [authLoading, setAuthLoading] = useState(true);
   const [activeModal, setActiveModal] = useState("");
   const [clothingItems, setClothingItems] = useState([]);
   const [weatherData, setWeatherData] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
 
-  const handleLogin = ({ email, password }) => {
-    fetch("http://localhost:3001/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Login failed");
-        return res.json();
+  const handleRegister = (values) => {
+    const { name, avatar, email, password } = values;
+
+    return register(name, avatar, email, password)
+      .then(() => {
+        return login(email, password);
       })
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        setIsLoggedIn(true);
+        setCurrentUser(data.user);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        console.error("Registration error:", err);
+      });
+  };
+
+  const handleLogin = ({ email, password }) => {
+    authorize(email, password)
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           setIsLoggedIn(true);
           setActiveModal("");
-          console.log("Login successful, token stored:", data.token);
-        } else {
-          console.error("Login failed, no token returned:", data);
         }
       })
       .catch((err) => console.error("Login error:", err));
@@ -67,18 +78,7 @@ function App() {
       return;
     }
 
-    fetch("http://localhost:3001/items", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(itemData),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to add item");
-        return res.json();
-      })
+    addItem(itemData, token)
       .then((newItem) => {
         setClothingItems((prev) => [...prev, newItem]);
         setActiveModal("");
@@ -146,13 +146,32 @@ function App() {
       .catch((err) => console.error("Error loading clothing items:", err));
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      setAuthLoading(false);
+      return;
+    }
+
+    getContent(token)
+      .then((user) => {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+      })
+      .catch(() => {
+        localStorage.removeItem("jwt");
+        setIsLoggedIn(false);
+      })
+      .finally(() => setAuthLoading(false));
+  }, []);
+
   if (!weatherData) return <p className="loading">Loading weather...</p>;
 
   return (
     <CurrentTemperatureUnitContext.Provider
       value={{ currentTemperatureUnit, handleToggleSwitchChange }}
     >
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
         <div className="app">
           <Header
             weatherData={weatherData}
@@ -183,9 +202,10 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRoute isLoggedIn={isLoggedIn}>
-                  <Profile clothingItems={clothingItems} />
-                </ProtectedRoute>
+                <ProtectedRoute
+                  isLoggedIn={isLoggedIn}
+                  element={<Profile clothingItems={clothingItems} />}
+                />
               }
             />
           </Routes>
@@ -202,7 +222,11 @@ function App() {
           )}
 
           {activeModal === "register" && (
-            <RegisterModal isOpen={true} onClose={() => setActiveModal("")} />
+            <RegisterModal
+              isOpen={true}
+              onClose={() => setActiveModal("")}
+              onRegister={handleRegister}
+            />
           )}
 
           {activeModal === "edit-profile" && (
