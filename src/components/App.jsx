@@ -34,7 +34,7 @@ function App() {
 
     return register(name, avatar, email, password)
       .then(() => {
-        return login(email, password);
+        return authorize(email, password);
       })
       .then((data) => {
         localStorage.setItem("jwt", data.token);
