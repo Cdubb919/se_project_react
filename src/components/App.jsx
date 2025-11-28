@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { addItem } from "../utils/api";
-import { register, authorize } from "../utils/auth";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Profile from "./Profile/Profile";
@@ -19,7 +18,7 @@ import CurrentTemperatureUnitContext from "../contexts/CurrentTemperatureUnitCon
 
 import { getWeather, filterWeatherData } from "../utils/weatherApi";
 import { getItems, addCardLike, removeCardLike } from "../utils/api";
-import { getContent, authorize } from "../utils/auth";
+import { getContent, authorize, register } from "../utils/auth";
 
 function App() {
   const [authLoading, setAuthLoading] = useState(true);
