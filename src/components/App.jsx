@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { addItem } from "../utils/api";
-import { register, login } from "../utils/auth";
+import { register, authorize } from "../utils/auth";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Profile from "./Profile/Profile";
