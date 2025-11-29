@@ -150,7 +150,10 @@ function App() {
 
   useEffect(() => {
     getItems()
-      .then((items) => setClothingItems(items))
+      .then((items) => {
+        setClothingItems(items);
+        console.log(items);
+      })
       .catch((err) => console.error("Error loading clothing items:", err));
   }, []);
 
@@ -164,7 +167,7 @@ function App() {
     getContent(token)
       .then((user) => {
         setIsLoggedIn(true);
-        setCurrentUser(user.data); // <-- FIX
+        setCurrentUser(user);
       })
       .catch(() => {
         localStorage.removeItem("jwt");
@@ -210,10 +213,21 @@ function App() {
             <Route
               path="/profile"
               element={
-                <ProtectedRoute
-                  isLoggedIn={isLoggedIn}
-                  element={<Profile clothingItems={clothingItems} />}
-                />
+                <ProtectedRoute isLoggedIn={isLoggedIn}>
+                  <Profile
+                    clothingItems={clothingItems}
+                    handleCardClick={handleCardClick}
+                    onAddClick={() => setActiveModal("add-item")}
+                    handleCardLike={handleLike}
+                    isLoggedIn={isLoggedIn}
+                    onSignOut={() => {
+                      setIsLoggedIn(false);
+                      setCurrentUser(null);
+                      localStorage.removeItem("jwt");
+                    }}
+                    onEditProfile={() => setActiveModal("edit-profile")}
+                  />
+                </ProtectedRoute>
               }
             />
           </Routes>

@@ -83,6 +83,6 @@
 }
 
 .add-item-modal__radio-input {
-  margin: 0 !important;
+  margin: 0;
   transform: scale(1.1);
 }

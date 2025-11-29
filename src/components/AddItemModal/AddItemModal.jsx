@@ -56,7 +56,6 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           onChange={handleChange}
         />
       </label>
-      {/* WEATHER RADIO GROUP */}
       <fieldset className="add-item-modal__radio-group">
         <legend className="add-item-modal__legend">
           Select the weather type:

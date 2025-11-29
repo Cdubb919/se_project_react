@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import "./Main.css";
 import WeatherCard from "./WeatherCard/WeatherCard.jsx";
 import ItemCard from "./ItemCard/ItemCard.jsx";
@@ -24,8 +24,11 @@ function Main({
   const displayTemp =
     currentTemperatureUnit === "F" ? weatherData.temp.F : weatherData.temp.C;
 
-  const filteredItems =
-    clothingItems?.filter((item) => item.weather === weatherData.type) || [];
+  const filteredItems = useMemo(
+    () =>
+      clothingItems?.filter((item) => item.weather === weatherData.type) || [],
+    [clothingItems]
+  );
 
   return (
     <main className="main">

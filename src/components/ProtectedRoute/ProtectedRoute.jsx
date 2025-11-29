@@ -1,9 +1,8 @@
-// src/components/ProtectedRoute/ProtectedRoute.jsx
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children, isLoggedIn }) {
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
   return children;
 }

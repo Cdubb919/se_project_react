@@ -39,5 +39,3 @@ function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
 }
 
 export default ItemCard;
-
-
