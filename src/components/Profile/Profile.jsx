@@ -13,7 +13,7 @@ function Profile({
   onEditProfile,
   onSignOut,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
  const filteredItems = clothingItems.filter(
   (item) => (item.owner?._id || item.owner) === currentUser?._id

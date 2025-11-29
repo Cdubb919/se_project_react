@@ -13,7 +13,7 @@ function Header({
   onSignOut,
   isLoggedIn,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -67,14 +67,6 @@ function Header({
               {renderUserAvatar()}
             </div>
           </NavLink>
-
-          <button
-            onClick={onSignOut}
-            type="button"
-            className="header__logout-btn"
-          >
-            Log out
-          </button>
         </>
       ) : (
         <div className="header__auth-buttons">

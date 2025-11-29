@@ -4,7 +4,7 @@ import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 import "./EditProfileModal.css";
 
 function EditProfileModal({ isOpen, onClose, onUpdateUser }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");

@@ -10,7 +10,7 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
   };
 
   const { values, handleChange, setValues } = useForm(defaultValues);
-    
+
   const handleReset = () => {
     setValues(defaultValues);
   };
@@ -56,42 +56,48 @@ const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
           onChange={handleChange}
         />
       </label>
-      <fieldset className="modal__radio-buttons">
-        <legend className="modal__legend">Select the weather type:</legend>
-        <label htmlFor="hot" className="modal__label modal__label_type_radio">
+      {/* WEATHER RADIO GROUP */}
+      <fieldset className="add-item-modal__radio-group">
+        <legend className="add-item-modal__legend">
+          Select the weather type:
+        </legend>
+
+        <label className="add-item-modal__radio-option">
           <input
             id="hot"
             type="radio"
             name="weather"
-            className="modal__radio-input"
+            className="add-item-modal__radio-input"
             value="hot"
             checked={values.weather === "hot"}
             onChange={handleChange}
-          />{" "}
+          />
           Hot
         </label>
-        <label htmlFor="warm" className="modal__label modal__label_type_radio">
+
+        <label className="add-item-modal__radio-option">
           <input
             id="warm"
             type="radio"
             name="weather"
-            className="modal__radio-input"
+            className="add-item-modal__radio-input"
             value="warm"
             checked={values.weather === "warm"}
             onChange={handleChange}
-          />{" "}
+          />
           Warm
         </label>
-        <label htmlFor="cold" className="modal__label modal__label_type_radio">
+
+        <label className="add-item-modal__radio-option">
           <input
             id="cold"
             type="radio"
             name="weather"
-            className="modal__radio-input"
+            className="add-item-modal__radio-input"
             value="cold"
             checked={values.weather === "cold"}
             onChange={handleChange}
-          />{" "}
+          />
           Cold
         </label>
       </fieldset>

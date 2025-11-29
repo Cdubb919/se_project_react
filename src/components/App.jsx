@@ -51,8 +51,17 @@ function App() {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-          setIsLoggedIn(true);
           setActiveModal("");
+
+          getContent(data.token)
+            .then((user) => {
+              setIsLoggedIn(true);
+              setCurrentUser(user.data);
+            })
+            .catch(() => {
+              localStorage.removeItem("jwt");
+              setIsLoggedIn(false);
+            });
         }
       })
       .catch((err) => console.error("Login error:", err));
@@ -79,7 +88,7 @@ function App() {
 
     addItem(itemData, token)
       .then((newItem) => {
-        setClothingItems((prev) => [...prev, newItem]);
+        setClothingItems((prev) => [newItem.data, ...prev]);
         setActiveModal("");
       })
       .catch((err) => console.error("Error adding item:", err));
@@ -155,7 +164,7 @@ function App() {
     getContent(token)
       .then((user) => {
         setIsLoggedIn(true);
-        setCurrentUser(user);
+        setCurrentUser(user.data); // <-- FIX
       })
       .catch(() => {
         localStorage.removeItem("jwt");

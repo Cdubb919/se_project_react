@@ -6,7 +6,7 @@ import likeIcon from "../../../assets/likeicon.svg";
 import likedIcon from "../../../assets/likedicon.svg";
 
 function ItemCard({ item, onCardClick, onCardLike, isLoggedIn }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const isLiked = item.likes?.includes(currentUser?._id);
 

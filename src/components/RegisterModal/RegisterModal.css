@@ -54,28 +54,3 @@
   padding: 8px;
 }
 
-.auth__divider {
-  text-align: center;
-  font-size: 14px;
-  color: #888;
-  margin: 12px 0;
-  position: relative;
-}
-
-.auth__divider::before,
-.auth__divider::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 35%;
-  height: 1px;
-  background-color: #ccc;
-}
-
-.auth__divider::before {
-  left: 0;
-}
-
-.auth__divider::after {
-  right: 0;
-}

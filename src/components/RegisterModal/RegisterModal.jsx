@@ -9,13 +9,14 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
     avatar: "",
     email: "",
     password: "",
+    role: "user",
   });
 
   useEffect(() => {
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen, resetForm]);
+  }, [isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -89,7 +90,7 @@ function RegisterModal({ isOpen, onClose, onRegister, onSwitchToLogin }) {
             }
           }}
         >
-          Already have an account? Log in
+          or Log in
         </button>
       </div>
     </ModalWithForm>
