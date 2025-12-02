@@ -21,7 +21,7 @@
   pointer-events: auto;
 }
 
-.modal__content {
+/* .modal__content {
   background: white;
   border-radius: 16px;
   padding: 20px;
@@ -31,7 +31,7 @@
   display: flex;
   flex-direction: column;   
   gap: 16px;
-}
+} */
 
 .modal__close {
   position: absolute;
@@ -70,6 +70,19 @@
   color: #ff4d00;
   font-size: 16px;
   cursor: pointer;
-  margin-top: auto;         
-  align-self: flex-start;   
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal__title-weather {
+  display: flex;
+  flex-direction: column;
 }

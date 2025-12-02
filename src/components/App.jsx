@@ -46,6 +46,37 @@ function App() {
       });
   };
 
+  const handleUpdateUser = ({ name, avatar }) => {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      console.error("No token, user not logged in");
+      return;
+    }
+
+    fetch("http://localhost:3001/users/me", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ name, avatar }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then((data) => Promise.reject(data));
+        }
+        return res.json();
+      })
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        console.log("User updated!", updatedUser);
+        setActiveModal("");
+      })
+      .catch((err) => {
+        console.error("Failed to update user:", err.message || err);
+      });
+  };
+
   const handleLogin = ({ email, password }) => {
     authorize(email, password)
       .then((data) => {
@@ -56,7 +87,7 @@ function App() {
           getContent(data.token)
             .then((user) => {
               setIsLoggedIn(true);
-              setCurrentUser(user.data);
+              setCurrentUser(user);
             })
             .catch(() => {
               localStorage.removeItem("jwt");
@@ -255,6 +286,7 @@ function App() {
             <EditProfileModal
               isOpen={true}
               onClose={() => setActiveModal("")}
+              onUpdateUser={handleUpdateUser}
             />
           )}
 

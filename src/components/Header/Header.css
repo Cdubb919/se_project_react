@@ -10,6 +10,7 @@
 
 .header__date-and-location {
   margin-right: auto;
+  font-weight: 700;
 }
 
 .header__add-clothes-btn {

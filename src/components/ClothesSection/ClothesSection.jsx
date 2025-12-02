@@ -10,9 +10,12 @@ function ClothesSection({
 }) {
   return (
     <div className="clothes-section">
-      <div>
+      <div className="clothes__section-header">
         <p>Your Items</p>
-        <button onClick={onAddClick}>Add New</button>
+        <button className="clothes__add-button" onClick={onAddClick}>
+          {" "}
+          + Add New
+        </button>
       </div>
       <ul className="cards__list">
         {clothingItems.map((item) => (
