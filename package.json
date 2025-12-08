@@ -1,5 +1,6 @@
 {
   "name": "se_project_react-main",
+  "homepage": "https://wtwrcdubb.localghost.org",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "deploy": "npm run build && scp -r ./dist/* christinanw919@wtwrcdubb.localghost.org:/home/christinanw919/frontend"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -43,6 +45,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Cdubb919/se_project_react/issues"
-  },
-  "homepage": "https://github.com/Cdubb919/se_project_react#readme"
+  }
 }
