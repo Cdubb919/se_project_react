@@ -1,7 +1,7 @@
 export const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "api.wtwrcdubb.localghost.org"  
-    : "http://localhost:3001";  
+    ? "https://api.wtwrcdubb.localghost.org"
+    : "http://localhost:3001";
 
 
 export const handleResponse = (res) => {
@@ -10,6 +10,7 @@ export const handleResponse = (res) => {
 };
 
 export const getHeaders = (token) => ({
+  "Accept": "application/json",
   "Content-Type": "application/json",
   ...(token && { Authorization: `Bearer ${token}` }),
 });
