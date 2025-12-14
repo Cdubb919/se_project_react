@@ -119,7 +119,7 @@ function App() {
 
     addItem(itemData, token)
       .then((newItem) => {
-        setClothingItems((prev) => [newItem.data, ...prev]);
+        setClothingItems((prev) => [newItem, ...prev]);
         setActiveModal("");
       })
       .catch((err) => console.error("Error adding item:", err));
